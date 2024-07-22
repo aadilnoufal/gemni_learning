@@ -1,0 +1,30 @@
+import pathlib
+import textwrap
+
+import google.generativeai as genai
+from google.generativeai import models  # Import GenerativeModel from models submodule
+
+from IPython.display import display
+from IPython.display import Markdown
+
+
+
+def to_markdown(text):
+    text = text.replace('•', '  *')
+    return Markdown(textwrap.indent(text, '> ', predicate=lambda _: True))
+
+# Used to securely store your API key
+
+genai.configure(api_key='your ap keyyyyyyyyyyyyyyyyyy')  # Replace with your actual API key
+
+# Create the model instance using the correct import
+
+model = genai.GenerativeModel('gemini-1.5-flash')
+
+# Time the generation
+tst=input('enter any qn')
+response = model.generate_content(tst)
+
+# Display the response
+
+print(response.text)
