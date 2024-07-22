@@ -1,0 +1,58 @@
+#excel project
+import pathlib
+import textwrap
+
+import google.generativeai as genai
+from google.generativeai import models  # Import GenerativeModel from models submodule
+
+from IPython.display import display
+from IPython.display import Markdown
+
+def to_markdown(text):
+    text = text.replace('•', '  *')
+    return Markdown(textwrap.indent(text, '> ', predicate=lambda _: True))
+
+# Used to securely store your API key
+
+genai.configure(api_key='AIzaSyCBXi27dWLzRAhZqdfdfdfJMEbh8S6XFmSbNRvPs')  # Replace with your actual API key,this is not my actual key
+
+# Create the model instance using the correct import
+
+model = genai.GenerativeModel('gemini-1.5-pro')
+
+# Time the generation
+
+
+for m in genai.list_models():
+  if 'generateContent' in m.supported_generation_methods:
+    print(m.name)
+
+
+#!curl -o excelocr.jpeg https://drive.google.com/file/d/1ZFW5Uxml0L9WEjHXAuoRZKMtTH5N6aSr/view?usp=sharing
+
+
+import PIL.Image
+
+#img = PIL.Image.open('excelocr.jpeg')
+#img
+
+from google.colab import files
+uploaded = files.upload()
+from PIL import Image
+import matplotlib.pyplot as plt
+!ls /content
+
+# Replace 'your_image.jpg' with the name of your uploaded file
+img_path = '/content/excelocr (1).jpeg'
+img = Image.open(img_path)
+
+# Display the image
+plt.imshow(img)
+plt.axis('off')
+plt.show()
+
+
+response = model.generate_content(["ples do ocr on this excel image it has ultiple rows and columns", img], stream=True)
+response.resolve()
+to_markdown(response.text)
+
